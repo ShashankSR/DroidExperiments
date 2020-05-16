@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="drugDetailViewModel"
+            type="com.example.filter.viewmodel.DrugDetailViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/toolbar_with_title_constraint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/layout_error_retry"
+            layout="@layout/layout_error_with_retry_data_binding"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            bind:baseViewModel="@{drugDetailViewModel.baseViewModel}" />
+
+        <android.support.v4.widget.NestedScrollView
+            style="@style/AppTheme"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{drugDetailViewModel.drugDetailViewObject.dataVisible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                tools:context=".CustomQuickMessagesActivity">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_dosage"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_label_dosage"
+                            style="@style/AppTheme.Text.Heading_1.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin"
+                            android:text="@{drugDetailViewModel.drugDetailViewObject.dosageTitle}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/label_dosage" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_dosage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_dosage"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/list_item_medicine_prescription" />
+
+
+                        <com.practo.droid.common.ui.ItemCalculatorView
+                            android:id="@+id/icv_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin_default"
+                            android:visibility="@{drugDetailViewModel.drugDetailViewObject.dosageMorningVisible}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/icv_two"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rv_dosage"
+                            bind:count="@={drugDetailViewModel.drugDetailViewObject.dosageMorningCount}" />
+
+
+                        <com.practo.droid.common.ui.ItemCalculatorView
+                            android:id="@+id/icv_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin_default"
+                            android:visibility="@{drugDetailViewModel.drugDetailViewObject.dosageNoonVisible}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/icv_three"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/icv_one"
+                            app:layout_constraintTop_toBottomOf="@id/rv_dosage"
+                            bind:count="@={drugDetailViewModel.drugDetailViewObject.dosageNoonCount}"
+                            tools:visibility="gone" />
+
+
+                        <com.practo.droid.common.ui.ItemCalculatorView
+                            android:id="@+id/icv_three"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin_default"
+                            android:visibility="@{drugDetailViewModel.drugDetailViewObject.dosageEveningVisible}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tv_dosage_frequency"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@id/icv_two"
+                            app:layout_constraintTop_toBottomOf="@id/rv_dosage"
+                            bind:count="@={drugDetailViewModel.drugDetailViewObject.dosageEveningCount}"
+                            tools:visibility="gone" />
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_dosage_frequency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{drugDetailViewModel.drugDetailViewObject.dosageText}"
+                            android:visibility="@{drugDetailViewModel.drugDetailViewObject.dosageTextVisible}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btn_dosage_quantity"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@id/icv_three"
+                            app:layout_constraintTop_toBottomOf="@id/rv_dosage"
+                            tools:text="Every 4 hours" />
+
+                        <com.practo.droid.common.ui.ButtonPlus
+                            android:id="@+id/btn_dosage_quantity"
+                            style="@style/AppTheme.Button.Flat.Dense"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_more"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@id/tv_dosage_frequency"
+                            app:layout_constraintTop_toBottomOf="@id/rv_dosage" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_freq"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    app:layout_constraintTop_toBottomOf="@id/card_dosage">
+
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_label_frequency"
+                            style="@style/AppTheme.Text.Heading_1.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin"
+                            android:text="@{drugDetailViewModel.drugDetailViewObject.frequencyTitle}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/label_frequency" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_frequency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_frequency"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/list_item_medicine_prescription" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_duration"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    app:layout_constraintTop_toBottomOf="@id/card_freq">
+
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_label_duration"
+                            style="@style/AppTheme.Text.Heading_1.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin"
+                            android:text="@{drugDetailViewModel.drugDetailViewObject.durationTitle}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/label_duration" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_duration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_duration"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/list_item_medicine_prescription" />
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_duration_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rv_duration"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/list_item_medicine_prescription" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_timing"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    app:layout_constraintTop_toBottomOf="@id/card_duration">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_label_timing"
+                            style="@style/AppTheme.Text.Heading_1.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin"
+                            android:text="@{drugDetailViewModel.drugDetailViewObject.timingTitle}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/label_duration" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_timing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_timing"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/list_item_medicine_prescription" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_notes"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    app:layout_constraintTop_toBottomOf="@id/card_timing">
+
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <com.practo.droid.common.ui.TextViewPlus
+                            android:id="@+id/tv_label_notes"
+                            style="@style/AppTheme.Text.Heading_1.Primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin"
+                            android:text="@string/label_notes"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/tv_notes"
+                            style="@style/AppTheme.EditText.MultiLine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:hint="@string/hint_notes"
+                            android:text="@={drugDetailViewModel.drugDetailViewObject.notes}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_notes" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_button"
+                    style="@style/AppTheme.CardView.Full"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    app:layout_constraintTop_toBottomOf="@id/card_notes">
+
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".CustomQuickMessagesActivity">
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            style="@style/AppTheme.Button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_save"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/btn_add_more"
+                            app:layout_constraintTop_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/btn_add_more"
+                            style="@style/AppTheme.Button.Flat.Dense.Left"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_add_more"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/btn_save"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

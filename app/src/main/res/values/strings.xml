@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">filter</string>
+    <string name="testing">testing</string>
+    <string name="label_dosage">Dosage per day</string>
+    <string name="label_frequency">Frequency</string>
+    <string name="label_duration">Duration</string>
+    <string name="label_notes">Notes</string>
+    <string name="hint_notes">Anything important with this medicine</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_add_more"><![CDATA[Save & Add More]]></string>
+    <string name="consult_add_quick_question">Add Quick Question</string>
+    <string name="consult_delete_quick_question">Remove Quick Question</string>
+    <string name="delete">delete</string>
+    <string name="label_more">More</string>
+    <string name="consult_add_note">Add note</string>
+    <string name="rt_characters_count_of_250">some %d</string>
+</resources>
